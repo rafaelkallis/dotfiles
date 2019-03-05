@@ -15,7 +15,7 @@ ls --symbolic .zshrc "$HOME/.zshrc"
 yay --sync --noconfirm zsh
 chsh -s $(which zsh)
 
-yay --sync --noconfirm docker
+yay --sync --noconfirm docker docker-compose
 sudo usermod -aG docker $USER
 sudo systemctl start docker
 sudo systemctl enable docker
