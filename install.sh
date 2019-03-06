@@ -33,6 +33,8 @@ yay --sync --noconfirm rustup
 yay --sync --noconfirm jdk-openjdk openjdk-doc openjdk-src maven gradle
 yay --sync --noeditmenu --nodiffmenu --nocleanmenu jdtls
 
+yay --sync --noconfirm kotlin
+
 yay --sync --noconfirm clang cmake
 
 yay --sync --noconfirm go
