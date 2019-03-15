@@ -54,9 +54,14 @@ autocmd VimEnter *
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'ajh17/vimcompletesme'
+" Plug 'ajh17/vimcompletesme'
 Plug 'autozimu/languageclient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
 Plug 'w0rp/ale'
+
+Plug 'Shougo/deoplete.nvim'
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+
 Plug 'chaoren/vim-wordmotion'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-commentary'
@@ -70,6 +75,8 @@ Plug 'tmhedberg/simpylfold', {'for': 'python'}
 Plug 'shougo/vimproc.vim', {'do': 'make'}
 Plug 'djoshea/vim-autoread'
 Plug 'itchyny/lightline.vim'
+
+Plug 'airblade/vim-rooter'
 
 call plug#end()
 
@@ -85,6 +92,11 @@ if exists('g:plugs["ale"]')
   nnoremap gl :ALEToggle<CR>
   nnoremap gf :ALEFix<CR>
   nnoremap ge :ALENextWrap<CR>
+endif
+
+" deoplete.nvim
+if exists('g:plugs["deoplete.nvim"]')
+  let g:deoplete#enable_at_startup = 1
 endif
 
 " languageclient-neovim
@@ -123,7 +135,7 @@ if exists('g:plugs["languageclient-neovim"]')
 
   " java
   " yay --sync jdtls
-  let g:LanguageClient_serverCommands.java = ['jdtls']
+  let g:LanguageClient_serverCommands.java = ['jdtls', '-data', '~/workspace']
   if !executable('jdtls')
     echo 'jdtls not installed'
   endif

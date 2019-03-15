@@ -15,6 +15,9 @@ ls --symbolic .zshrc "$HOME/.zshrc"
 yay --sync --noconfirm zsh
 chsh -s $(which zsh)
 
+ls --symbolic .tmux.conf "$HOME/.tmux.conf"
+yay --sync --noconfirm tmux
+
 yay --sync --noconfirm docker docker-compose
 sudo usermod -aG docker $USER
 sudo systemctl start docker
@@ -40,7 +43,7 @@ yay --sync --noconfirm clang cmake
 yay --sync --noconfirm go
 yay --sync --noeditmenu --nodiffmenu --nocleanmenu go-langserver
 
-yay --sync --noeditmenu --nodiffmenu --nocleanmenu chromium ttf-monaco
+yay --sync --noeditmenu --nodiffmenu --nocleanmenu chromium ttf-monaco postman-bin
 
 # echo "urxvt*font: xft:Monaco:size=9:antialias=true" >> .Xresources
 
