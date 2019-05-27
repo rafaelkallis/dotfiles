@@ -52,15 +52,11 @@ autocmd VimEnter *
   \|   PlugInstall --sync | q
   \| endif
 
+let g:ale_completion_enabled = 1
+
 call plug#begin('~/.vim/plugged')
 
-" Plug 'ajh17/vimcompletesme'
-Plug 'autozimu/languageclient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
 Plug 'w0rp/ale'
-
-Plug 'Shougo/deoplete.nvim'
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
 
 Plug 'chaoren/vim-wordmotion'
 Plug 'tpope/vim-sensible'
@@ -70,9 +66,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'sheerun/vim-polyglot'
 Plug 'airblade/vim-gitgutter'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tmhedberg/simpylfold', {'for': 'python'}
-Plug 'shougo/vimproc.vim', {'do': 'make'}
 Plug 'djoshea/vim-autoread'
 Plug 'itchyny/lightline.vim'
 
@@ -84,75 +78,19 @@ call plug#end()
 if exists('g:plugs["ale"]')
   let g:ale_fixers = {} 
   let g:ale_fixers.javascript = ['eslint']
-  let g:ale_fixers['javascript.jsx'] = ['eslint']
-  let g:ale_fixers.typescript = ['tslint']
+  let g:ale_fixers['javascript.jsx'] = ['eslint', 'prettier']
+  let g:ale_fixers.typescript = ['tslint', 'prettier']
   let g:ale_fixers.cpp = ['clang-format']
   let g:ale_fixers.python = ['autopep8']
    
   nnoremap gl :ALEToggle<CR>
   nnoremap gf :ALEFix<CR>
   nnoremap ge :ALENextWrap<CR>
-endif
+  nnoremap gd :ALEGoToDefinition<CR>
+  nnoremap gh :ALEHover<CR>
+  " nnoremap gr :<CR>
 
-" deoplete.nvim
-if exists('g:plugs["deoplete.nvim"]')
-  let g:deoplete#enable_at_startup = 1
-endif
-
-" languageclient-neovim
-if exists('g:plugs["languageclient-neovim"]')
-  nnoremap gm :call LanguageClient_contextMenu()<CR>
-  nnoremap gr :call LanguageClient#textDocument_rename()<CR>
-  nnoremap gd :call LanguageClient#textDocument_definition()<CR>
-  nnoremap gh :call LanguageClient#textDocument_hover()<CR>
-  nnoremap gpc :pclose<CR>
-  
-	let g:LanguageClient_serverCommands = {}
-
-  " c, c++
-  " yay --sync llvm
-  let g:LanguageClient_serverCommands.c = ['clangd']
-  let g:LanguageClient_serverCommands.cpp = ['clangd']
-  if !executable('clangd')
-    echo 'clangd not installed'
-  endif
-
-  " javascript, typescript, jsx
-  " npm install --global javascript-typescript-langserver
-  let g:LanguageClient_serverCommands.javascript = ['javascript-typescript-stdio']
-  let g:LanguageClient_serverCommands['javascript.jsx'] = ['javascript-typescript-stdio']
-  let g:LanguageClient_serverCommands.typescript = ['javascript-typescript-stdio']
-  if !executable('javascript-typescript-langserver')
-    echo 'javascript-typescript-langserver not installed'
-  endif
-
-  " python
-  " pip install --user python-language-server
-  let g:LanguageClient_serverCommands.python = ['pyls']
-  if !executable('pyls')
-    echo 'pyls not installed'
-  endif
-
-  " java
-  " yay --sync jdtls
-  let g:LanguageClient_serverCommands.java = ['jdtls', '-data', '~/workspace']
-  if !executable('jdtls')
-    echo 'jdtls not installed'
-  endif
-
-  " go
-  " go get -u github.com/sourcegraph/go-langserver
-  let g:LanguageClient_serverCommands.go = ['go-langserver']
-  if !executable('go-langserver')
-    echo 'go-langserver not installed'
-  endif
-
-  " rust
-  " yay --sync rustup
-  let g:LanguageClient_serverCommands.rust = ['rustup', 'run', 'stable', 'rls']
-  if !executable('rustup')
-    echo 'rustup not installed'
-  endif
+  set omnifunc=ale#completion#OmniFunc
 endif
 
 " vim-wordmotion
@@ -166,16 +104,4 @@ endif
 if exists('g:plugs["vim-polyglot"]')
   " Syntax Highlighting javascript jsdoc
   let g:javascript_plugin_jsdoc = 1
-endif
-
-" ctrlp.vim
-if exists('g:plugs["ctrlp.vim"]')
-  nmap go :CtrlP<CR>
-  let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git\|svn'
-endif
-
-if exists('g:plugs["lightline.vim"]')
-  " let g:lightline = {
-  "       \ 'colorscheme': 'wombat',
-  "       \ }
 endif
