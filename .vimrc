@@ -70,14 +70,14 @@ Plug 'tmhedberg/simpylfold', {'for': 'python'}
 Plug 'djoshea/vim-autoread'
 Plug 'itchyny/lightline.vim'
 
-Plug 'airblade/vim-rooter'
+" Plug 'airblade/vim-rooter'
 
 call plug#end()
 
 " ale
 if exists('g:plugs["ale"]')
   let g:ale_fixers = {} 
-  let g:ale_fixers.javascript = ['eslint']
+  let g:ale_fixers.javascript = ['eslint', 'prettier']
   let g:ale_fixers['javascript.jsx'] = ['eslint', 'prettier']
   let g:ale_fixers.typescript = ['tslint', 'prettier']
   let g:ale_fixers.cpp = ['clang-format']
@@ -91,6 +91,15 @@ if exists('g:plugs["ale"]')
   " nnoremap gr :<CR>
 
   set omnifunc=ale#completion#OmniFunc
+
+  highlight ALEError ctermfg=red ctermbg=NONE
+  let g:ale_sign_error = '●'
+  highlight ALEErrorSign ctermbg=NONE ctermfg=red
+
+  highlight ALEWarning ctermfg=yellow ctermbg=NONE
+  let g:ale_sign_warning = '●'
+  highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
+
 endif
 
 " vim-wordmotion
