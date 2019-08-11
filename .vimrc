@@ -1,14 +1,11 @@
 " Maintainer: Rafael Kallis <rafaelkallis.com>
 
 " Keybindings:
-"   gd: go to identifier (D)efinition
 "   ge: go to next (E)rror
 "   gf: (F)ix errors
-"   gl: toggle (L)inter
 "   gn: toggle line (N)umbers
-"   go: search and (O)pen file
-"   gq: (Q)uit normal mode
 "   gr: (R)ename identifier
+"   gd: go to identifier (D)efinition
 
 " insert spaces when tab is pressed
 setlocal expandtab
@@ -29,9 +26,6 @@ setlocal nowrap
 setlocal foldmethod=syntax
 autocmd FileType python setlocal foldmethod=indent
 setlocal foldlevelstart=20
-
-" quit insert mode
-inoremap gq <Esc>
 
 " toggle line numbers
 nnoremap gn :set number!<CR>
@@ -68,9 +62,15 @@ Plug 'sheerun/vim-polyglot'
 Plug 'airblade/vim-gitgutter'
 Plug 'tmhedberg/simpylfold', {'for': 'python'}
 Plug 'djoshea/vim-autoread'
-Plug 'itchyny/lightline.vim'
+Plug 'sjl/vitality.vim'
 
-" Plug 'airblade/vim-rooter'
+Plug 'itchyny/lightline.vim'
+Plug 'itchyny/vim-gitbranch'
+Plug 'maximbaz/lightline-ale'
+
+Plug 'marcweber/vim-addon-mw-utils'
+Plug 'tomtom/tlib_vim'
+Plug 'garbas/vim-snipmate'
 
 call plug#end()
 
@@ -83,12 +83,10 @@ if exists('g:plugs["ale"]')
   let g:ale_fixers.cpp = ['clang-format']
   let g:ale_fixers.python = ['autopep8']
    
-  nnoremap gl :ALEToggle<CR>
   nnoremap gf :ALEFix<CR>
   nnoremap ge :ALENextWrap<CR>
   nnoremap gd :ALEGoToDefinition<CR>
   nnoremap gh :ALEHover<CR>
-  " nnoremap gr :<CR>
 
   set omnifunc=ale#completion#OmniFunc
 
@@ -103,14 +101,47 @@ if exists('g:plugs["ale"]')
 endif
 
 " vim-wordmotion
-if exists('g:plugs["vim-wordmotion"]')
-  let g:wordmotion_mappings = {
-    \ 'ge' : '',
-    \ }
-endif
+let g:wordmotion_mappings = {
+\   'ge': '',
+\ }
 
 " vim-polyglot
-if exists('g:plugs["vim-polyglot"]')
-  " Syntax Highlighting javascript jsdoc
-  let g:javascript_plugin_jsdoc = 1
-endif
+" Syntax Highlighting javascript jsdoc
+let g:javascript_plugin_jsdoc = 1
+
+" lightline.vim
+let g:lightline = {}
+let g:lightline.mode_map = {
+\   'n': 'N',
+\   'i': 'I',
+\   'R': 'R',
+\   'v': 'V',
+\   'V': 'V-L',
+\   "\<C-v>": 'V-B',
+\ }
+let g:lightline.colorscheme = 'wombat'
+let g:lightline.component_function = {
+\   'gitbranch': 'gitbranch#name',
+\ }
+let g:lightline.component_expand = {
+\  'linter_checking': 'lightline#ale#checking',
+\  'linter_warnings': 'lightline#ale#warnings',
+\  'linter_errors': 'lightline#ale#errors',
+\  'linter_ok': 'lightline#ale#ok',
+\ }
+let g:lightline.component_type = {
+\  'linter_checking': 'left',
+\  'linter_warnings': 'warning',
+\  'linter_errors': 'error',
+\  'linter_ok': 'left',
+\ }
+let g:lightline.active = {
+\   'left': [['mode', 'linter_warnings', 'linter_errors']],
+\   'right': [
+\      ['readonly', 'modified'],
+\      ['filename'],
+\      ['gitbranch'],
+\   ],
+\ }
+let g:lightline#ale#indicator_warnings = ''
+let g:lightline#ale#indicator_errors = ''
