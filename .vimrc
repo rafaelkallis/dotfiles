@@ -46,7 +46,7 @@ autocmd VimEnter *
   \|   PlugInstall --sync | q
   \| endif
 
-let g:ale_completion_enabled = 1
+" let g:ale_completion_enabled = 1
 
 call plug#begin('~/.vim/plugged')
 
@@ -76,12 +76,14 @@ call plug#end()
 
 " ale
 if exists('g:plugs["ale"]')
-  let g:ale_fixers = {} 
-  let g:ale_fixers.javascript = ['eslint', 'prettier']
-  let g:ale_fixers['javascript.jsx'] = ['eslint', 'prettier']
-  let g:ale_fixers.typescript = ['tslint', 'prettier']
-  let g:ale_fixers.cpp = ['clang-format']
-  let g:ale_fixers.python = ['autopep8']
+  let g:ale_echo_msg_format = '%s'
+  
+  let g:ale_fixers = {
+  \   'javascript': ['eslint', 'prettier'],
+  \   'typescript': ['eslint', 'prettier'],
+  \   'cpp': ['clang-format'],
+  \   'python': ['autopep8'],
+  \ } 
    
   nnoremap gf :ALEFix<CR>
   nnoremap ge :ALENextWrap<CR>
@@ -112,10 +114,10 @@ let g:javascript_plugin_jsdoc = 1
 " lightline.vim
 let g:lightline = {}
 let g:lightline.mode_map = {
-\   'n': 'N',
-\   'i': 'I',
-\   'R': 'R',
-\   'v': 'V',
+\   'n': 'NOR',
+\   'i': 'INS',
+\   'R': 'REP',
+\   'v': 'VIS',
 \   'V': 'V-L',
 \   "\<C-v>": 'V-B',
 \ }
@@ -136,7 +138,7 @@ let g:lightline.component_type = {
 \  'linter_ok': 'left',
 \ }
 let g:lightline.active = {
-\   'left': [['mode', 'linter_warnings', 'linter_errors']],
+\   'left': [['mode', 'linter_errors', 'linter_warnings', 'linter_ok']],
 \   'right': [
 \      ['readonly', 'modified'],
 \      ['filename'],
